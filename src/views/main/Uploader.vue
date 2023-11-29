@@ -76,50 +76,14 @@
     import{ref, inject} from 'vue'
     import SparkMd5 from 'spark-md5'
     const Request = inject("$request");
+    const Utils = inject("$Utils");
     
     const api = {
         upload: "/file/uploadFile"
     };
 
     /**文件上传状态 */
-    const STATUS = {
-        emptyFile: {
-            value: "emptyFile",
-            desc: "文件为空",
-            color: "#F75000",
-            icon: "close"
-        },
-        fail: {
-            value: "fail",
-            desc: "上传失败",
-            color: "#f75000"
-        },
-        init: {
-            value: "init",
-            desc: "解析中",
-            color: "#e6a23c",
-            icon: "clock"
-        },
-        /**注意:只有以下三个状态可以被后端返回 */
-        uploading: {
-            value: "uploading",
-            desc: "上传中",
-            color: "#409eff",
-            icon: "upload"
-        },
-        finish: {
-            value: "finish",
-            desc: "上传完成",
-            color: "#67c23a",
-            icon: "ok"
-        },
-        upload_seconds: {
-            value: "upload_seconds",
-            desc: "秒传完成",
-            color: "#67c23a",
-            icon: "ok"
-        }
-    };
+    const STATUS = Utils.UPLOAD_STATUS;
     /**待上传文件列表 */
     const fileList = ref([]);
     /**待删除文件列表 */

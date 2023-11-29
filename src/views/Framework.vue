@@ -293,9 +293,9 @@
     const routerViewRef = ref();
     /**传递上传文件参数到文件界面 */
     const addFile = (data) => {      
-        const {file,pid} = data;
+        const {file,dirId} = data;
         showUploader.value = true;
-        uploaderRef.value.addFile(file,pid);
+        uploaderRef.value.addFile(file,dirId);
     };
 
     /***************用户信息相关 ********************/

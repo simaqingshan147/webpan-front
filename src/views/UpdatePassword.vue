@@ -30,6 +30,7 @@
 
 <script setup>
     import { ref,nextTick,reactive,inject } from 'vue';
+    import { md5 } from 'js-md5';
     const Verify = inject('$verify');
     const Request = inject('$request');
     const Message = inject('$message');
@@ -95,6 +96,8 @@
         formDataRef.value.validate(async (valid)=>{
             if(!valid)
                 return;
+            //加密新密码
+            formData.password = md5(formData.password);
             let result = await Request({
                 url: api.updatePwd,
                 params:{
