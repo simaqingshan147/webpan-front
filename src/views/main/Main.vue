@@ -135,6 +135,10 @@
 <script setup>
     import { computed } from '@vue/reactivity';
     import {ref,reactive,inject, nextTick} from 'vue';
+
+    //引入页面
+    import FileShare from './FileShare.vue';
+
     const Message = inject("$message");
     const Request = inject("$request");
     const Confirm = inject("$confirm");
@@ -396,7 +400,7 @@
         *@param index 对应文件(夹)在tableData.list的索引
         */
         const saveNameEdit = async(index)=>{
-            const {id,pid,fileNameReal,isFolder} = tableData.value.list[index];
+            const {id,pid,fileNameReal,fileSuffix,isFolder} = tableData.value.list[index];
             if(fileNameReal === "" || fileNameReal.index("/") != -1){
                 Message.warning("文件名不能为空或含有斜杠");
                 return;
@@ -406,7 +410,7 @@
                 pid: pid,
                 //rename参数
                 id: id,
-                newName : fileNameReal,
+                newName : fileNameReal+fileSuffix,
                 isFolder: isFolder,
                 //newFolder参数
                 dirName: fileNameReal

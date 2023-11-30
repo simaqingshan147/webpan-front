@@ -164,5 +164,23 @@ export default{
             code:4,
             desc:"删除"
         }
+    },
+    VALID_TYPE:{
+        day_1:{
+            type: 0,
+            days: 1
+        },
+        day_7:{
+            type: 1,
+            days: 7
+        },
+        day_30:{
+            type: 2,
+            days: 30
+        },
+        forever:{
+            type: 3,
+            days: Number.MAX_SAFE_INTEGER
+        }
     }
 }
