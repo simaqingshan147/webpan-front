@@ -24,6 +24,8 @@ import AvatarUpload from '@/components/AvatarUpload.vue'
 import Avatar from '@/components/Avatar.vue'
 import Icon from '@/components/Icon.vue'
 import Nodata from '@/components/Nodata.vue'
+import Navigation from '@/components/Navigation.vue'
+import FolderSelect from '@/components/FolderSelect.vue'
 
 const app = createApp(App);
 
@@ -36,6 +38,9 @@ app.component("AvatarUpload",AvatarUpload);
 app.component("Avatar",Avatar);
 app.component("Icon",Icon);
 app.component("Nodata",Nodata);
+app.component("Navigation", Navigation);
+app.component("FolderSelect",FolderSelect);
+
 
 //配置全局变量
 app.provide('$request',Request);

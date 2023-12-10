@@ -44,6 +44,7 @@
     </div>
     <!-- 文件列表 -->
     <div class="flie-list" v-if="tableData.list && tableData.list.length>0">
+        <!-- 文件列表分页显示组件 -->
         <Table ref="dataTableRef" :columns="columns" :showPagination="true" :dataSource="tableData"
             :fetch="loadFileList" :initFetch="false" :options="tableOptions" @rowSelected="rowSelected">
             <template #fileName = "{index,row}">
@@ -124,11 +125,11 @@
             </div>
         </div>
     </div>
-    <!-- 文件预览 -->
+    <!-- 文件预览组件 -->
     <Preview ref="previewRef"></Preview>
-    <!-- 目标文件夹显示 -->
+    <!-- 目标文件夹选择组件 -->
     <FolderSelect ref="folderSelectRef" @folderSelect="moveDone"></FolderSelect>
-    <!-- 分享 -->
+    <!-- 分享页面 -->
     <FileShare ref="shareRef"></FileShare>
 </template>
 
