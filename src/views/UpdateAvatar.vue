@@ -1,4 +1,4 @@
-<!-- 更新头像的对话框组件 -->
+<!-- 更新头像的对话框页面 -->
 <template>
    <Dialog :show="dialogConfig.show" :title="dialogConfig.title" :buttons="dialogConfig.buttons"
         width="500px" :showCancel=true @close="dialogConfig.show=false">

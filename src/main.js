@@ -26,6 +26,7 @@ import Icon from '@/components/Icon.vue'
 import Nodata from '@/components/Nodata.vue'
 import Navigation from '@/components/Navigation.vue'
 import FolderSelect from '@/components/FolderSelect.vue'
+import Table from '@/components/Table.vue'
 
 const app = createApp(App);
 
@@ -40,7 +41,7 @@ app.component("Icon",Icon);
 app.component("Nodata",Nodata);
 app.component("Navigation", Navigation);
 app.component("FolderSelect",FolderSelect);
-
+app.component("Table",Table);
 
 //配置全局变量
 app.provide('$request',Request);

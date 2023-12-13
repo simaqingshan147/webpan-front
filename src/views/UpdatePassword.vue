@@ -1,4 +1,4 @@
-<!-- 修改密码组件 -->
+<!-- 修改密码页面 -->
 <template>
     <el-dialog v-model="diglogConfig.show" :title="diglogConfig.title" width="500px"
         showCancel=true @close="diglogConfig.show=false">
