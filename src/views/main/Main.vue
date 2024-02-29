@@ -329,9 +329,8 @@
             });
         }
 
-
         /**批量移入回收站 */
-        const recycleBatch = () =>{
+        const recycleBatch = ()=>{
             if(!selected)
                 return;
             Confirm("你确定要删除这些文件吗?删除文件可在10天内通过回收站还原",
@@ -362,8 +361,6 @@
             //选择目标文件夹
             folderSelectRef.value.showFolderDialog(excludeDirIdList);
         };
-
-
 
         /****************单个文件操作*********************/
 

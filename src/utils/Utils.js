@@ -16,7 +16,7 @@ export default{
             return strSize.substring(0,index);
         return strSize;
     },
-    CATEGORY:{
+    CATEGORY: {
         "all": {
             accept: "*"
         },

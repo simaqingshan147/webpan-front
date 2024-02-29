@@ -76,7 +76,7 @@
     import{ref, inject} from 'vue'
     import SparkMd5 from 'spark-md5'
     const Request = inject("$request");
-    const Utils = inject("$Utils");
+    const Utils = inject("$utils");
     
     const api = {
         upload: "/file/uploadFile"
