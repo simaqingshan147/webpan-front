@@ -120,7 +120,7 @@
         const {id,name} = document;
         const dirIdAndName = {
             dirName: name,
-            dirId: dirId
+            dirId: id
         };
         folderList.value.push(dirIdAndName);
         currentFolder.dirId = id;

@@ -36,7 +36,7 @@
     const Message = inject('$message');
 
     const api = {
-        updatePwd: "/user/updatePassword"
+        updatePwd: "/user/updatePwd"
     };
 
     const checkRePwd = (rule,val,callback)=>{
@@ -101,7 +101,7 @@
             let result = await Request({
                 url: api.updatePwd,
                 params:{
-                    password: formData.password
+                    newPassword: formData.password
                 }
             });
             if(!result)

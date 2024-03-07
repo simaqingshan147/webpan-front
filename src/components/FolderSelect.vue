@@ -6,7 +6,7 @@
             <Navigation ref="navigationRef" @navChange="navChange" :watchPath="false">
             </Navigation>
         </div>
-        <div class="folder-list" v-if="folderList.length>0">
+        <div class="folder-list" v-if="folderList !== undefined && folderList.length > 0">
             <div class="folder-item" v-for="document in folderList" @click="selectFolder(document)">
                 <Icon :fileType="0"></Icon>
                 <span class="file-name">{{ document.name }}</span>
@@ -46,8 +46,8 @@
         let result = Request({
             url: api.loadAllFolder,
             params: {
-                dirId: selectedFolder.dirId,
-                checkedDirIds: excludeDirIdList
+                pid: selectedFolder.dirId,
+                checkedDirIds: excludeDirIdList.value
             }
         });
         if(!result)
@@ -67,7 +67,11 @@
      */
     const showFolderDialog = (curFolder) =>{
         dialogConfig.show = true;
-        excludeDirIdList.value.push(curFolder);
+        if(curFolder instanceof String) {
+            excludeDirIdList.value.push(curFolder);
+        } else if(curFolder instanceof Array) {
+            excludeDirIdList.value = curFolder;
+        }
         selectedFolder.dirId = 0;
         nextTick(()=>{
             navigationRef.value.init();

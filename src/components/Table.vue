@@ -1,48 +1,85 @@
 <!-- 文件分页显示组件 -->
 <template>
-    <el-table ref="dataTableRef" :data="dataSource.list || []" :height="tableHeight"
-        :stripe="options.stripe" :border="options.border" header-row-class-name="table-header-row"
-        highlight-current-row @row-click="handleRowClick" @selection-change="handleSelectionChange">
+    <el-table
+        ref="dataTableRef"
+        :data="dataSource.list || []"
+        :height="tableHeight"
+        :stripe="options.stripe"
+        :border="options.border"
+        header-row-class-name="table-header-row"
+        highlight-current-row
+        @row-click="handleRowClick"
+        @selection-change="handleSelectionChange"
+    >
         <!-- 选择框 -->
-        <el-table-column v-if="options.selectType && options.selectType == 'checkbox'"
-            type="selection" width="50" align="center">
+        <el-table-column
+            v-if="options.selectType && options.selectType == 'checkbox'"
+            type="selection"
+            width="50" 
+            align="center"
+        >
         </el-table-column>
         <!-- 序号 -->
-        <el-table-column v-if="options.showIndex" label="序号" type="index" width="60" align="center">
+        <el-table-column 
+            v-if="options.showIndex" 
+            label="序号" 
+            type="index" 
+            width="60" 
+            align="center"
+        >
         </el-table-column>
         <!-- 文件列 -->
         <template v-for="(column,index) in columns">
             <template v-if="column.scopedSlots">
-                <el-table-column :key="index" :prop="column.prop" :label="column.label"
-                    :align="column.align || 'left'" :width="column.width">
+                <el-table-column 
+                    :key="index"
+                    :prop="column.prop"
+                    :label="column.label"
+                    :align="column.align || 'left'"
+                    :width="column.width"
+                >
                     <template #default="scope">
-                        <slot :name="column.scopedSlots" :index="scope.$index" :row="scope.row">
+                        <slot 
+                            :name="column.scopedSlots"
+                            :index="scope.$index"
+                            :row="scope.row"
+                        >
                         </slot>
                     </template>
                 </el-table-column>
             </template>
             <template v-else>
-                <el-table-column :key="index" :prop="column.prop" :label="column.label"
-                    :align="column.align || 'left'" :width="column.width" :fixed="column.fixed">
+                <el-table-column 
+                    :key="index"
+                    :prop="column.prop"
+                    :label="column.label"
+                    :align="column.align || 'left'"
+                    :width="column.width"
+                >
                 </el-table-column>
             </template>
         </template>
         <!-- 分页 -->
         <div class="pagination" v-if="showPagination">
-            <el-pagination v-if="dataSource.totalCount" background :total="dataSource.totalCount"
-                :page-sizes="[15,30,50,100]" :page-size="dataSource.pageSize"
-                :current-page.sync="dataSource.pageNo" :layout="layout" style="text-align: right;"
-                @size-change="handlePageSizeChange" @current-change="handlePageNoChange">
+            <el-pagination
+                v-if="dataSource.totalCount"
+                background
+                :total="dataSource.totalCount"
+                :page-sizes="[15,30,50,100]"
+                :page-size="dataSource.pageSize"
+                :current-page.sync="dataSource.pageNo"
+                :layout="layout" 
+                style="text-align: right;"
+                @size-change="handlePageSizeChange"
+                @current-change="handlePageNoChange"
+            >
             </el-pagination>
         </div>
     </el-table>
-  
 </template>
 
 <script setup>
-    import {ref,reactive,computed,inject} from 'vue'
-    const Utils = inject("$utils");
-    const Request = inject("$request");
+    import {ref,computed,inject} from 'vue'
     const Message = inject("$message");
 
     /******************* 暴露给父组件 *******************/
@@ -106,7 +143,7 @@
     const tableHeight = ref(
         props.options.tableHeight
         ? props.options.tableHeight
-        : window.innerHeight - topHeight - props.extHeight
+        : window.innerHeight - topHeight - props.options.extHeight
     );
 
     /**初始化 */
@@ -152,14 +189,14 @@
 
 <style lang="scss" scoped>
 .pagination {
-  padding-top: 10px;
-  padding-right: 10px;
+    padding-top: 10px;
+    padding-right: 10px;
 }
 .el-pagination {
-  justify-content: right;
+    justify-content: right;
 }
 
 :deep .el-table__cell {
-  padding: 4px 0px;
+    padding: 4px 0px;
 }
 </style>

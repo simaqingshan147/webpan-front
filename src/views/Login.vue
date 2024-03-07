@@ -345,15 +345,16 @@ const doSubmit = ()=>{
             showPanel(1);
         //登录返回
         }else if(opType.value == 1){
-            if(params.remeberme){
+            if(params.remeberme) {
                 const loginInfo = {
                     email: params.email,
                     password: params.password,  //cookie中保存md5加密密码
                     remeberme: params.remeberme
                 };
                 Cookies.set("loginInfo",loginInfo,"7d");
-            }else
+            }else {
                 Cookies.remove("loginInfo");
+            }
             //存储userInfo
             Cookies.set("userInfo",result.data,0);
             //重定向到首页

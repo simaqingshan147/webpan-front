@@ -1,6 +1,6 @@
 <!-- 文件分享页面,弹窗选择分享信息 -->
 <template>
-    <Dialog :show="diglogConfig.show" :title="dialogConfig.title" :buttons="dialogConfig.buttons"
+    <Dialog :show="dialogConfig.show" :title="dialogConfig.title" :buttons="dialogConfig.buttons"
         width="600px" :showCancel="showCancel" @close="dialogConfig.show = false">
         <el-form :model="formData" :rules="rules"
             ref="formDataRef" label-width="100px" @submit.prevent>
@@ -131,7 +131,7 @@
                 return;
             let params = {
                 id: formData.value.id,
-                isFolder: formData.value.isFolder,
+                folderType: formData.value.folderType,
                 validType: formData.value.validType,
                 code: formData.value.code
             };

@@ -36,9 +36,12 @@
 
     /**文件类型 */
     const getIcon = (fileType)=>{
-        for(typeName in Utils.FILE_TYPE){
-            if(Utils.FILE_TYPE[typeName].type == fileType)
-                return type;
+        if(fileType !== undefined) {
+            for(const typeName in Utils.FILE_TYPE) {
+                if(Utils.FILE_TYPE[typeName].type === fileType) {
+                    return typeName;
+                }
+            }
         }
         return "others";
     }
@@ -46,13 +49,14 @@
     /**获取图片 */
     const getImage = ()=>{
         //指定了图片路径
-        if(props.cover)
-            return imageUrl + props.cover;
+        if(props.cover){
+            return api.imageUrl + props.cover;
+        }
         let icon = "unknown_icon";
         if(props.iconName)
             icon = props.iconName;
         else{
-            icon = getIcon(fileType);
+            icon = getIcon(props.fileType);
         }
         return new URL(`/src/assets/icon-image/${icon}.png`,import.meta.url).href;
     }

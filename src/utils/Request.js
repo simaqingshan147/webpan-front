@@ -45,7 +45,7 @@ instance.interceptors.response.use(
         //处理数据格式
         if(responseType == "arraybuffer" || responseType == "blob")
             return responseData;
-        if(responseData.code == 200)
+        if(responseData.code === 200)
             return responseData;
         else{
             if(errorCallback)

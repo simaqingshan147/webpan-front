@@ -18,6 +18,11 @@ import 'element-plus/dist/index.css'
 import '@/assets/icon/iconfont.css'
 import '@/assets/base.scss'
 
+//引入代码高亮
+import HljsVuePlugin from '@highlightjs/vue-plugin'
+import "highlight.js/styles/atom-one-light.css";
+import 'highlight.js/lib/common'
+
 //自定义组件
 import Dialog from '@/components/Dialog.vue'
 import AvatarUpload from '@/components/AvatarUpload.vue'
@@ -27,6 +32,8 @@ import Nodata from '@/components/Nodata.vue'
 import Navigation from '@/components/Navigation.vue'
 import FolderSelect from '@/components/FolderSelect.vue'
 import Table from '@/components/Table.vue'
+import Window from '@/components/Window.vue'
+import Preview from '@/components/preview/Preview.vue'
 
 const app = createApp(App);
 
@@ -42,6 +49,8 @@ app.component("Nodata",Nodata);
 app.component("Navigation", Navigation);
 app.component("FolderSelect",FolderSelect);
 app.component("Table",Table);
+app.component("Window",Window);
+app.component("Preview",Preview);
 
 //配置全局变量
 app.provide('$request',Request);
@@ -50,5 +59,10 @@ app.provide('$verify',Verify);
 app.provide('$message',Message);
 app.provide('$confirm',Confirm);
 app.provide('$utils',Utils);
+
+app.provide('globalInfo',{
+    avatarUrl: '/file/getAvatar',
+    imageUrl: '/file/getImage'
+});
 
 app.mount('#app');

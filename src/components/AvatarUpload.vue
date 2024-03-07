@@ -7,7 +7,7 @@
                 <img :src="localFile" />
             </template>
             <template v-else>
-                <img :src="`/user/getAvatar/${modelValue.userId}`" />
+                <img :src="`/api/user/getAvatar/${modelValue.userId}`" />
             </template>
         </div>
         <!-- 上传 -->

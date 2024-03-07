@@ -89,7 +89,7 @@
                         </div>
                         <div class="space-use">
                             <div class="use">
-                                {{ Utils.size2Str(useSpaceInfo.useSpace) }}
+                                {{ Utils.size2Str(useSpaceInfo.useSpace) }} /
                                 {{ Utils.size2Str(useSpaceInfo.totalSpace) }}
                             </div>
                             <div class="iconfont icon-refresh" @click="getUseSpace"></div>
@@ -316,6 +316,7 @@
         });
         if(!result)
             return;
+        console.log(result.data);
         useSpaceInfo.value = result.data;
     };
 
@@ -355,6 +356,9 @@
     const updatePassword = ()=>{
         updatePwdRef.value.show();
     };
+
+    getUseSpace();
+    reloadAvatar();
 </script>
 
 <style lang="scss" scoped>
@@ -530,4 +534,5 @@
         width: 0;
         padding-left: 20px;
     }
-}</style>
+}
+</style>

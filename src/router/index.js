@@ -23,7 +23,7 @@ const routes = [
                     needLogin: true,
                     menuCode: "main"
                 },
-                component: () => import('../components/Test.vue')
+                component: () => import('@/views/main/Main.vue')
             }
         ]
     }
