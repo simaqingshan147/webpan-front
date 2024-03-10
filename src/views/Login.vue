@@ -36,7 +36,7 @@
                         </div>
                     </el-form-item>
                     <!-- 气泡卡片提示 -->
-                    <el-popover placement="left" width="500" trigger="click">
+                    <el-popover placement="left" :width="500" trigger="click">
                         <div>
                             <p>1、在垃圾箱中查找邮箱验证码</p>
                             <p>2、在邮箱中头像->设置->反垃圾->白名单->设置邮件地址白名单</p>

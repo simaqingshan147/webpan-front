@@ -1,6 +1,7 @@
 // 处理ajax请求,格式化后端响应
 import axios from 'axios'
 import { ElLoading } from 'element-plus'
+import Router from '../router/index.js';
 import Message from '@/utils/Message.js'
 //todo import Router from '@/router/index.js'
 
@@ -43,10 +44,16 @@ instance.interceptors.response.use(
         //包括code,status,info,data的json对象
         const responseData = response.data;
         //处理数据格式
-        if(responseType == "arraybuffer" || responseType == "blob")
+        if(responseType == "arraybuffer" || responseType == "blob"){
+            console.log(responseData);
             return responseData;
+        }
         if(responseData.code === 200)
             return responseData;
+        else if( responseData.code === 404) {
+            Message.error("登录已过期");
+            Router.push('/login');
+        }
         else{
             if(errorCallback)
                 errorCallback(responseData.info);
@@ -68,7 +75,7 @@ instance.interceptors.response.use(
 
 const Request = (config) => {
     const {url,params,dataType,showLoading = true,responseType = "json"} = config;
-
+    console.log(url);
     //根据request配置确定响应数据格式
     let contentType = 'application/x-www-form-urlencoded;charset=UTF-8';
     let formData = new FormData();

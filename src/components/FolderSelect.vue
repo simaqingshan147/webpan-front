@@ -43,7 +43,7 @@
 
     /**加载所有可选目录 */
     const loadAllFolder = async ()=>{
-        let result = Request({
+        let result = await Request({
             url: api.loadAllFolder,
             params: {
                 pid: selectedFolder.dirId,
@@ -63,15 +63,11 @@
     };
 
     /**暴露给父组件的方法,显示弹窗
-     * @param curFolder 单文件移动时该文件的目录id,或者是待移动目录的id数组
+     * @param curFolder 单文件移动时该文件夹的id,或者是待移动目录的id数组
      */
     const showFolderDialog = (curFolder) =>{
         dialogConfig.show = true;
-        if(curFolder instanceof String) {
-            excludeDirIdList.value.push(curFolder);
-        } else if(curFolder instanceof Array) {
-            excludeDirIdList.value = curFolder;
-        }
+        excludeDirIdList.value = curFolder;
         selectedFolder.dirId = 0;
         nextTick(()=>{
             navigationRef.value.init();
@@ -83,7 +79,7 @@
      * @param document 选中目录的信息
      */
     const selectFolder = (document)=>{
-        navigationRef.value.openFolder(document.id);
+        navigationRef.value.openFolder(document);
     };
 
     /**打开目录后的后调

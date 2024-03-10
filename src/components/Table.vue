@@ -15,7 +15,7 @@
         <el-table-column
             v-if="options.selectType && options.selectType == 'checkbox'"
             type="selection"
-            width="50" 
+            :width="50" 
             align="center"
         >
         </el-table-column>
@@ -24,7 +24,7 @@
             v-if="options.showIndex" 
             label="序号" 
             type="index" 
-            width="60" 
+            :width="60" 
             align="center"
         >
         </el-table-column>
@@ -59,10 +59,11 @@
                 </el-table-column>
             </template>
         </template>
-        <!-- 分页 -->
-        <div class="pagination" v-if="showPagination">
+    </el-table>
+    <!-- 分页 -->
+    <div class="pagination" v-if="showPagination">
             <el-pagination
-                v-if="dataSource.totalCount"
+                v-if="dataSource.totalCount && dataSource.totalCount > 0"
                 background
                 :total="dataSource.totalCount"
                 :page-sizes="[15,30,50,100]"
@@ -75,7 +76,6 @@
             >
             </el-pagination>
         </div>
-    </el-table>
 </template>
 
 <script setup>
@@ -148,6 +148,7 @@
 
     /**初始化 */
     const init = ()=>{
+        console.log(props);
         if(props.initFetch && props.fetch)
             props.fetch();
     };
@@ -196,7 +197,7 @@
     justify-content: right;
 }
 
-:deep .el-table__cell {
+:deep(.el-table__cell) {
     padding: 4px 0px;
 }
 </style>

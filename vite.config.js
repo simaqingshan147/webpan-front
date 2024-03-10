@@ -23,7 +23,8 @@ export default defineConfig({
           "^api": "/api"
         }
       }
-    }
+    },
+    open: true
   },
   build: {
     chunkSizeWarningLimit: 3000,

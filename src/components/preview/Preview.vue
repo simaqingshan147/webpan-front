@@ -1,6 +1,6 @@
 <template>
     <PreviewImage
-        v-if="fileInfo.fileType === FILE_TYPE['image'].type"
+        v-if="document.type === FILE_TYPE['image'].type"
         ref="imageViewRef"
         :imageList="[imageUrl]"
     >
@@ -8,39 +8,39 @@
     <Window
         v-else
         :show="windowShow"
-        :width="fileInfo.fileType === FILE_TYPE['video'].type ? 1500 : 900"
-        :title="fileInfo.fileName"
-        :align="fileInfo.fileType === FILE_TYPE['video'].type ? 'center' : 'top'"
+        :width="900"
+        :title="document.name"
+        :align="document.type === FILE_TYPE['video'].type ? 'center' : 'top'"
         @close="closeWindow"
     >
-        <PreviewVideo v-if="fileInfo.fileType === FILE_TYPE['video'].type" :url="url"></PreviewVideo>
-        <PreviewExcel v-if="fileInfo.fileType === FILE_TYPE['excel'].type" :url="url"></PreviewExcel>
-        <PreviewDoc v-if="fileInfo.fileType === FILE_TYPE['word'].type" :url="url"></PreviewDoc>
-        <PreviewPdf v-if="fileInfo.fileType === FILE_TYPE['pdf'].type" :url="url"></PreviewPdf>
+        <PreviewVideo v-if="document.type === FILE_TYPE['video'].type" :url="url"></PreviewVideo>
+        <PreviewExcel v-if="document.type === FILE_TYPE['excel'].type" :url="url"></PreviewExcel>
+        <PreviewDoc v-if="document.type === FILE_TYPE['word'].type" :url="url"></PreviewDoc>
+        <PreviewPdf v-if="document.type === FILE_TYPE['pdf'].type" :url="url"></PreviewPdf>
         <PreviewTxt 
-            v-if="fileInfo.fileType === FILE_TYPE['txt'].type || fileInfo.fileType === FILE_TYPE['program'].type"
+            v-if="document.type === FILE_TYPE['txt'].type || document.type === FILE_TYPE['program'].type"
             :url="url"
-            :fileName="fileInfo.fileName"
+            :fileName="document.name"
         >
         </PreviewTxt>
         <PreviewMusic
-            v-if="fileInfo.fileType === FILE_TYPE['music'].type"
+            v-if="document.type === FILE_TYPE['music'].type"
             :url="url"
-            :fileName="fileInfo.fileName"
+            :fileName="document.name"
         >
         </PreviewMusic>
         <PreviewDownload
-            v-if="fileInfo.fileType === FILE_TYPE['zip'].type || fileInfo.fileType === FILE_TYPE['other'].type"
+            v-if="document.type === FILE_TYPE['zip'].type || document.type === FILE_TYPE['others'].type"
             :createDownloadUrl="createDownloadUrl"
             :downloadUrl="downloadUrl"
-            :fileInfo="fileInfo"
+            :fileInfo="document"
         >
         </PreviewDownload>
     </Window>
 </template>
 
 <script setup>
-import { inject,ref,reactive, computed, nextTick, defineExpose } from 'vue';
+import { inject,ref, computed, nextTick } from 'vue';
 import PreviewImage from './PreviewImage.vue';
 import PreviewVideo from './PreviewVideo.vue';
 import PreviewExcel from './PreviewExcel.vue';
@@ -56,26 +56,26 @@ const FILE_TYPE = Utils.FILE_TYPE;
 const FILE_URL_MAP = {
   0: {
     fileUrl: "/file/getFile",
-    videoUrl: "/file/ts/getVideoInfo",
+    videoUrl: "/file/getVideoInfo",
     createDownloadUrl: "/file/createDownloadUrl",
     downloadUrl: "/file/download",
   },
   1: {
     fileUrl: "/admin/getFile",
-    videoUrl: "/admin/ts/getVideoInfo",
+    videoUrl: "/admin/getVideoInfo",
     createDownloadUrl: "/admin/createDownloadUrl",
     downloadUrl: "/admin/download",
   },
   2: {
     fileUrl: "/showShare/getFile",
-    videoUrl: "/showShare/ts/getVideoInfo",
+    videoUrl: "/showShare/getVideoInfo",
     createDownloadUrl: "/showShare/createDownloadUrl",
     downloadUrl: "/showShare/download",
   },
 };
 
 /**文件信息 */
-const fileInfo = ref({});
+const document = ref({});
 /**文件url */
 const url = ref(null);
 /**创建分享文件url */
@@ -88,7 +88,7 @@ const imageViewRef = ref();
 /**图片文件或文件封面url*/
 const imageUrl = computed(() => {
     return (
-        globalInfo.imageUrl + fileInfo.value.fileCover.replaceAll('_.','.')
+        globalInfo.imageUrl + document.value.cover.replaceAll('_.','.')
     );
 });
 
@@ -100,16 +100,16 @@ const closeWindow = () => {
 };
 
 const showPreview = (data, showPart) => {
-    fileInfo.value = data;
-    if(data.fileType === FILE_TYPE['image'].type) {
+    document.value = data;
+    if(data.type === FILE_TYPE['image'].type) {
         nextTick(() => {
             imageViewRef.value.show(0);
         })
     } else {
-        windowShow = true;
+        windowShow.value = true;
         let _url = FILE_URL_MAP[showPart].fileUrl;
         // 视频地址单独处理
-        if(data.fileType === FILE_TYPE['video'].type) {
+        if(data.type === FILE_TYPE['video'].type) {
             _url = FILE_URL_MAP[showPart].videoUrl;
         }
 
@@ -117,16 +117,17 @@ const showPreview = (data, showPart) => {
         let _downloadUrl = FILE_URL_MAP[showPart].downloadUrl;
 
         if(showPart === 0) {
-            _url = _url + "/" + data.fileId;
-            _createDownloadUrl = _createDownloadUrl + "/" + data.fileId;
+            _url = _url + "/" + data.id;
+            _createDownloadUrl = _createDownloadUrl + "/" + data.id;
         } else if(showPart === 1) {
-            _url = _url + "/" + data.userId + "/" + data.fileId;
-            _createDownloadUrl =  _createDownloadUrl + "/" + data.userId + "/" + data.fileId;
+            _url = _url + "/" + data.userId + "/" + data.id;
+            _createDownloadUrl =  _createDownloadUrl + "/" + data.userId + "/" + data.id;
         } else if(showPart === 2) {
-            _url = _url + "/" + data.shareId + "/" + data.fileId;
-            _createDownloadUrl = _createDownloadUrl + "/" + data.shareId + "/" + data.fileId;
+            _url = _url + "/" + data.shareId + "/" + data.id;
+            _createDownloadUrl = _createDownloadUrl + "/" + data.shareId + "/" + data.id;
         }
         url.value = _url;
+        console.log(url.value);
         createDownloadUrl.value = _createDownloadUrl;
         downloadUrl.value = _downloadUrl;
     }

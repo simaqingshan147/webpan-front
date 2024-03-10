@@ -5,7 +5,6 @@
 </template>
 
 <script setup>
-    import { ref,inject } from 'vue'
     import Utils from '../utils/Utils';
     
     /**暴露组件属性 */
@@ -31,7 +30,7 @@
 
     const api = {
         avatarUrl: "/api/user/getAvatar",
-        imageUrl: "/api/file/getImage"
+        imageUrl: "/api/file/getImage/"
     };
 
     /**文件类型 */
@@ -50,6 +49,7 @@
     const getImage = ()=>{
         //指定了图片路径
         if(props.cover){
+            console.log(api.imageUrl+props.cover);
             return api.imageUrl + props.cover;
         }
         let icon = "unknown_icon";

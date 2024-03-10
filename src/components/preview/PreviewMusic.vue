@@ -15,7 +15,6 @@ import "aplayer/dist/APlayer.min.css";
 
 import {
   ref,
-  computed,
   onMounted,
   onUnmounted
 } from "vue";
@@ -39,6 +38,7 @@ onMounted(() => {
       name: `${props.fileName}`,
       cover: new URL(`@/assets/music_icon.png`, import.meta.url).href,
       artist: "",
+      autoplay: true
     },
   });
 });

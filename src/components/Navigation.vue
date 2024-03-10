@@ -79,10 +79,11 @@
 
     /**执行父组件绑定在navChange事件上的函数 */
     const doCallback = ()=>{
-        emit("navChange",{
+        const param = {
             curFolder: currentFolder.dirId,
             curCategory: category.value
-        });
+        };
+        emit("navChange",param);
     };
 
      /**暴露给父组件的初始化函数 */
@@ -106,7 +107,9 @@
 
         let query = "";
         if(pathArray.length > 0)
-            query = {path:pathArray.join("/")};
+            query = {
+                        path: pathArray.join("/")
+                    };
         Router.push({
             path: Route.path,
             query: query
@@ -163,7 +166,6 @@
         let url = api.getFolderInfo;
         if(props.shareId)
             url = api.getFolderInfo4Share;
-
         let result = await Request({
             url: url,
             params:{

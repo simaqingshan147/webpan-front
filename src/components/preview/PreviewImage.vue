@@ -38,6 +38,8 @@ const show = (index) => {
     preivewImgIndex.value = index;
 };
 
+defineExpose({ show });
+
 const closeImgViewer = () => {
     startScroll();
     preivewImgIndex.value = null;

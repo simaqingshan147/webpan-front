@@ -13,8 +13,6 @@
 
 <script setup>
 import VuePdfEmbed from "vue-pdf-embed";
-import { createLoadingTask } from "vue3-pdfjs";
-import { ElLoading } from "element-plus";
 
 import { ref, computed } from "vue";
 

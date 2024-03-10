@@ -43,7 +43,7 @@
         <Navigation ref="navigationRef" @navChange="navChange"></Navigation>
     </div>
     <!-- 文件列表 -->
-    <div class="flie-list" v-if="tableData.list && tableData.list.length > 0">
+    <div class="file-list" v-if="tableData.list && tableData.list.length > 0">
         <!-- 文件列表分页显示组件 -->
         <Table
             ref="dataTableRef"
@@ -80,7 +80,7 @@
                         <span :class="['iconfont icon-right1',row.fileNameReal ? '' : 'not-allow']"
                             @click="saveNameEdit(index)">
                         </span>
-                        <span :class="['iconfont icon-right1',row.fileNameReal ? '' : 'not-allow']"
+                        <span :class="['iconfont icon-error',row.fileNameReal ? '' : 'not-allow']"
                             @click="cancelNameEdit(index)">
                         </span>
                     </div>
@@ -143,7 +143,7 @@
 
 <script setup>
 import { computed } from '@vue/reactivity';
-import {ref,reactive,inject, nextTick} from 'vue';
+import { ref, reactive, inject } from 'vue';
 
 //引入页面
 import FileShare from './FileShare.vue';
@@ -299,14 +299,13 @@ const loadDataList = async ()=>{
         pageNo: tableData.value.pageNo,
         pageSize: tableData.value.pageSize,
         name: fileNameFuzzy.value,
-        type: Utils.getTypeByCategory(category.value),
+        category: category.value,
         pid: currentFolder.dirId,
         status: STATUS.using.code
     };
     //如果是分类查询,则不该指定父目录
     if(category.value !== "all")
         delete params.pid;
-    console.log('params', params);
     let result = await Request({
         url: api.loadFileList,
         showLoading: showLoading,
@@ -315,7 +314,7 @@ const loadDataList = async ()=>{
     if(!result){
         return;
     }
-    console.log("result", result.data);
+    console.log(result.data);
     tableData.value = result.data;
     editing.value = false;
 };
@@ -382,10 +381,9 @@ const recycleBatch = () => {
 const moveBatch = ()=>{
     if(!selected)
         return;
-    //目标文件夹不能是当前文件夹(未移动)和待移动文件夹
     let excludeDirIdList = selectedDirIdList.value;
-    excludeDirIdList.unshift(currentFolder.dirId);
     //选择目标文件夹
+    console.log(excludeDirIdList);
     folderSelectRef.value.showFolderDialog(excludeDirIdList);
 };
 
@@ -406,7 +404,6 @@ const editName = (index) => {
     document.showEdit = true;
 
     //编辑
-    console.log(document);
     if(document.folderType){
         document.fileNameReal = document.name;
         //文件夹无后缀
@@ -426,7 +423,6 @@ const editName = (index) => {
 *@param index 对应文件(夹)在tableData.list的索引
 */
 const saveNameEdit = async(index)=>{
-    console.log(tableData.value.list[index]);
     const {id,pid,fileNameReal,fileSuffix,folderType} = tableData.value.list[index];
     if(fileNameReal === "" || fileNameReal.indexOf("/") != -1){
         Message.warning("文件名不能为空或含有斜杠");
@@ -442,7 +438,6 @@ const saveNameEdit = async(index)=>{
         //newFolder参数
         dirName: fileNameReal
     }
-    console.log(params);
     //id为null,即为待保存的无名文件夹
     if(id == null){
         url = api.newFolder;
@@ -494,6 +489,7 @@ const share = (document)=>{
  * @param document 待下载文件的信息
  */
 const download = async (document) =>{
+    console.log(document);
     let result = await Request({
         url: api.createDownloadUrl + "/" + document.id,
     });
@@ -524,7 +520,6 @@ const recycle = (document)=>{
                     fileIds: fileIds
                 }
             });
-            console.log('result',result);
             if(!result)
                 return;
             loadDataList();
@@ -541,7 +536,11 @@ const currentMoveDocument = ref({});
  */
 const move = (document)=>{
     currentMoveDocument.value = document;
-    folderSelectRef.value.showFolderDialog(currentFolder.dirId);
+    let excludeDirIdList = []
+    if(document.folderType === true) {
+        excludeDirIdList.push(document.id);
+    }
+    folderSelectRef.value.showFolderDialog(excludeDirIdList);
 };
 
 /****************** 子组件相关 **********************/

@@ -16,16 +16,12 @@ export default{
         let index = strSize.indexOf(".");
         //如果后两位为00,则删除
         let dou = strSize.substring(index+1,index+3);
-        console.log(strSize);
         if(dou === "00") {
             return strSize.substring(0,index) + strSize.substring(index+3, index+5);
         }
         return strSize;
     },
     CATEGORY: {
-        "all": {
-            accept: "*"
-        },
         "video": {
             accept: ".mp4,.avi,.rmvb,.mkv,.mov"
         },
@@ -97,7 +93,7 @@ export default{
             accept:["rar", ".zip", ".7z", ".cab", ".arj", ".lzh", ".tar", ".gz",
                     ".ace", ".uue", ".bz", ".jar", ".iso",".mpq"]
         },
-        others:{
+        "others":{
             type:10,
             category:"ohter",
             accept:null
@@ -105,9 +101,10 @@ export default{
     },
     getTypeByCategory: function(category) {
         let types = [];
-        for(let typeObj in Object.values(this.FILE_TYPE)){
-            if(typeObj.category === category)
-                types.push(typeObj.type);
+        for(const key in this.FILE_TYPE){
+            if(category === this.FILE_TYPE[key].category){
+                types.push(this.FILE_TYPE[key].type);
+            }
         }
         return types;
     },

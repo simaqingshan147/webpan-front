@@ -39,6 +39,7 @@ const app = createApp(App);
 
 app.use(ElementPlus);
 app.use(Router);
+app.use(HljsVuePlugin);
 
 //配置全局组件
 app.component("Dialog",Dialog);
@@ -61,8 +62,8 @@ app.provide('$confirm',Confirm);
 app.provide('$utils',Utils);
 
 app.provide('globalInfo',{
-    avatarUrl: '/file/getAvatar',
-    imageUrl: '/file/getImage'
+    avatarUrl: '/api/file/getAvatar',
+    imageUrl: '/api/file/getImage/'
 });
 
 app.mount('#app');

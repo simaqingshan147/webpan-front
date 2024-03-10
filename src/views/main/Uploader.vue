@@ -1,7 +1,7 @@
 <!-- 主界面上的文件上传组件 -->
 <template>
     <div class="uploader-panel">
-        <div class="upload-title">
+        <div class="uploader-title">
             <span>上传任务</span>
             <span class="tips">(仅展示本次上传任务)</span>
         </div>
@@ -40,7 +40,7 @@
                 <!-- 操作界面 -->
                 <div class="op">
                     <!-- MD5计算进度(文件处于初始化状态时显示) -->
-                    <el-progress type="circle" width="50" :percentage="fileItem.md5Progress"
+                    <el-progress type="circle" :width="50" :percentage="fileItem.md5Progress"
                         v-if="fileItem.status == STATUS.init.value" />
                     <div class="op-btn">
                         <span v-if="fileItem.status === STATUS.uploading.value">
@@ -238,6 +238,7 @@
                 //因为可能是网络问题,可以继续上传
                 break;
             }
+            console.log(uploadResult);
             currentFile.fileId = uploadResult.data.fileId;
             currentFile.status = STATUS[uploadResult.data.status].value;
             currentFile.chunkIndex = i;
@@ -264,7 +265,7 @@
         let loadNext = ()=>{
             let start = chunkIndex * chunkSize;
             let end = start + chunkSize > file.size ? file.size : start + chunkSize;
-            fileReader.readAsArrayBuffer(blobSlice.call(file,start,en));
+            fileReader.readAsArrayBuffer(blobSlice.call(file,start,end));
         }
 
         loadNext();

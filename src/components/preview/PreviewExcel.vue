@@ -4,7 +4,7 @@
 
 <script setup>
 import * as XLSX from 'xlsx';
-import {ref, reactive, onMounted, defineProps, inject } from 'vue';
+import {ref, onMounted, inject } from 'vue';
 
 const Request = inject('$request');
 
@@ -39,7 +39,7 @@ onMounted(() => {
 .table-info {
   width: 100%;
   padding: 10px;
-  :deep table {
+  :deep(table) {
     width: 100%;
     border-collapse: collapse;
     td {

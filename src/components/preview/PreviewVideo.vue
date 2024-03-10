@@ -1,6 +1,6 @@
 <template>
-    <div>
-        <videoPlay v-bind="options" id="player"/>
+    <div id="player">
+        <videoPlay v-bind="options"/>
     </div>
 </template>
 
@@ -8,9 +8,9 @@
 import "vue3-video-play/dist/style.css";
 import { videoPlay } from 'vue3-video-play/lib/index';
 import 'vue3-video-play/dist/style.css'
-
+import { reactive } from 'vue';
 export default {
-    comments: {
+    components: {
         videoPlay
     },
     props: {
@@ -19,9 +19,9 @@ export default {
         }
     },
     setup(props) {
-        const options = reactive({
+        let options = reactive({
             color: "#b7daff",
-            src: props.url,
+            src: `/api${props.url}`,
             type: "m3u8",
             speedRate: ["0.75", "1.0", "1.25", "1.5", "2.0"], //播放倍速
             autoPlay: false, //自动播放
@@ -37,7 +37,21 @@ export default {
                 "pageFullScreen",
                 "fullScreen",
             ]
-        })
+        });
+
+        return {
+            options
+        }
     }
 }
 </script>
+
+<style lang="scss" scoped>
+#player {
+  display: flex;
+  width: 100%;
+  justify-content: center;
+  align-items: center;
+  max-height: calc(100vh - 41px);
+}
+</style>

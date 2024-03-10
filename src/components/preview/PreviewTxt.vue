@@ -24,7 +24,7 @@
 import useClipboard from "vue-clipboard3";
 const { toClipboard } = useClipboard();
 
-import { ref, reactive, onMounted, nextTick, inject } from "vue";
+import { ref, onMounted, inject } from "vue";
 const Request = inject("$request");
 const Message = inject("$message");
 
