@@ -7,7 +7,7 @@
         </div>
         <!-- 上传文件展示 -->
         <div class="file-list">
-            <div v-for="(fileItem,index) in fileList " class="file-item">
+            <div v-for="(fileItem,index) in fileList" class="file-item">
                 <!-- 显示界面 -->
                 <div class="upload-panel">
                     <!-- 文件名 -->
@@ -44,20 +44,20 @@
                         v-if="fileItem.status == STATUS.init.value" />
                     <div class="op-btn">
                         <span v-if="fileItem.status === STATUS.uploading.value">
-                            <Icon width=28 class="btn-item" iconName="upload" title="上传"
+                            <Icon :width=28 class="btn-item" iconName="upload" title="上传"
                               v-if="fileItem.pause" @click="startUpload(fileItem.uid)">
                             </Icon>
-                            <Icon width=28 class="btn-item" iconName="pause" title="暂停"
+                            <Icon :width=28 class="btn-item" iconName="pause" title="暂停"
                               v-else @click="pauseUpload(fileItem.uid)">
                             </Icon>
                         </span>
-                        <Icon width=28 class="del btn-item" iconName="del" title="删除"
+                        <Icon :width=28 class="del btn-item" iconName="del" title="删除"
                             v-if="fileItem.status === STATUS.init.value ||
                                   fileItem.status === STATUS.finish.value ||
                                   fileItem.status === STATUS.upload_seconds"
                             @click="delUpload(fileItem.uid,index)">
                         </Icon>
-                        <Icon width=28 class="clean btn-item" iconName="clean" title="清除"
+                        <Icon :width=28 class="clean btn-item" iconName="clean" title="清除"
                             v-if="fileItem.status === STATUS.finish.value ||
                                   fileItem.status === STATUS.upload_seconds"
                             @click="delUpload(fileItem.uid,index)">
@@ -236,15 +236,16 @@
             if(uploadResult == null){
                 //不能直接设为失败或从fileList删除
                 //因为可能是网络问题,可以继续上传
+                console.log("result is null");
                 break;
             }
-            console.log(uploadResult);
-            currentFile.fileId = uploadResult.data.fileId;
             currentFile.status = STATUS[uploadResult.data.status].value;
             currentFile.chunkIndex = i;
             //上传完成
             if(uploadResult.data.status === STATUS.upload_seconds.value || uploadResult.data.status === STATUS.finish.value){
+                currentFile.fileId = uploadResult.data.fileId;
                 currentFile.uploadProgress = 100;
+                console.log("上传完成");
                 //调用父组件传递函数
                 emit("uploadCallback");
                 break;

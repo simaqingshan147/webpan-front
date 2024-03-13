@@ -49,7 +49,6 @@
     const getImage = ()=>{
         //指定了图片路径
         if(props.cover){
-            console.log(api.imageUrl+props.cover);
             return api.imageUrl + props.cover;
         }
         let icon = "unknown_icon";

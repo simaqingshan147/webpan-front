@@ -6,11 +6,11 @@ const routes = [
     {
         name: 'login',
         path: '/login',
-        component: () => import('../views/Login.vue')
+        component: () => import('@/views/Login.vue')
     },
     {
         path: "/",
-        component: () => import('../views/Framework.vue'),
+        component: () => import('@/views/Framework.vue'),
         children: [
             {
                 path: "/",
@@ -24,6 +24,15 @@ const routes = [
                     menuCode: "main"
                 },
                 component: () => import('@/views/main/Main.vue')
+            },
+            {
+                path: '/recycle',
+                name: "回收站",
+                meta: {
+                    needLogin: true,
+                    menuCode: "recycle"
+                },
+                component: () => import('@/views/recycle/Recycle.vue')
             }
         ]
     }

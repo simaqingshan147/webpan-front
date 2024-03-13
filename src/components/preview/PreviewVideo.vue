@@ -1,57 +1,56 @@
 <template>
-    <div id="player">
-        <videoPlay v-bind="options"/>
-    </div>
+   <div ref="player" id="player"></div>
 </template>
 
-<script>
-import "vue3-video-play/dist/style.css";
-import { videoPlay } from 'vue3-video-play/lib/index';
-import 'vue3-video-play/dist/style.css'
-import { reactive } from 'vue';
-export default {
-    components: {
-        videoPlay
-    },
-    props: {
-        url: {
-            type: String
-        }
-    },
-    setup(props) {
-        let options = reactive({
-            color: "#b7daff",
-            src: `/api${props.url}`,
-            type: "m3u8",
-            speedRate: ["0.75", "1.0", "1.25", "1.5", "2.0"], //播放倍速
-            autoPlay: false, //自动播放
-            volume: 0.3, //默认音量大小
-            control: true, //是否显示控制
-            controlBtns: [
-                "audioTrack",
-                "quality",
-                "speedRate",
-                "volume",
-                "setting",
-                "pip",
-                "pageFullScreen",
-                "fullScreen",
-            ]
-        });
+<script setup>
+import { onMounted, reactive,ref } from 'vue';
+import DPlayer from 'dplayer';
+import Hls from "hls.js";
 
-        return {
-            options
-        }
+const props = defineProps({
+    url: {
+        type: String
     }
-}
+});
+
+const player = ref();
+
+const initPlayer = () => {
+    const dp = new DPlayer({
+        element: player.value,
+        theme: "#b7daff",
+        screenshot: true,
+        video: {
+            url: `/api${props.url}`,
+            type: "customHls",
+            customType: {
+                customHls: function (video, player) {
+                    const hls = new Hls();
+                    hls.loadSource(video.src);
+                    hls.on(Hls.Events.ERROR, function (event, data) {
+                        console.log(data);
+                    });
+                    hls.attachMedia(video);
+                }
+            }
+        }
+    })
+};
+
+onMounted( ()=> {
+    initPlayer();
+})
 </script>
 
 <style lang="scss" scoped>
 #player {
-  display: flex;
   width: 100%;
-  justify-content: center;
-  align-items: center;
-  max-height: calc(100vh - 41px);
+  :deep(.dplayer-video-wrap) {
+    text-align: center;
+    .dplayer-video {
+      margin: 0px auto;
+      max-height: calc(100vh - 41px);
+    }
+  }
 }
 </style>

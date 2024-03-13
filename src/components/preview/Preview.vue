@@ -58,19 +58,19 @@ const FILE_URL_MAP = {
     fileUrl: "/file/getFile",
     videoUrl: "/file/getVideoInfo",
     createDownloadUrl: "/file/createDownloadUrl",
-    downloadUrl: "/file/download",
+    downloadUrl: "/api/api/download",
   },
   1: {
     fileUrl: "/admin/getFile",
     videoUrl: "/admin/getVideoInfo",
     createDownloadUrl: "/admin/createDownloadUrl",
-    downloadUrl: "/admin/download",
+    downloadUrl: "/api/api/download",
   },
   2: {
     fileUrl: "/showShare/getFile",
     videoUrl: "/showShare/getVideoInfo",
     createDownloadUrl: "/showShare/createDownloadUrl",
-    downloadUrl: "/showShare/download",
+    downloadUrl: "/api/api/download",
   },
 };
 

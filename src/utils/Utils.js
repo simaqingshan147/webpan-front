@@ -1,13 +1,13 @@
 export default{
     size2Str: (size) =>{
         let strSize = "";
-        if(size < 0.1*1024){
+        if(size < 1024){
             strSize = size.toFixed(2) + "B";
         }
-        else if(size < 0.1*1024*1024){
+        else if(size < 1024*1024){
             strSize = (size / 1024).toFixed(2) + "KB";
         }
-        else if(size < 0.1*1024*1024*1024){
+        else if(size < 1024*1024*1024){
             strSize = (size/(1024*1024)).toFixed(2) + "MB";
         }
         else{

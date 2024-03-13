@@ -75,7 +75,6 @@ instance.interceptors.response.use(
 
 const Request = (config) => {
     const {url,params,dataType,showLoading = true,responseType = "json"} = config;
-    console.log(url);
     //根据request配置确定响应数据格式
     let contentType = 'application/x-www-form-urlencoded;charset=UTF-8';
     let formData = new FormData();
@@ -92,8 +91,8 @@ const Request = (config) => {
 
     return instance.post(url,formData,{
         onUploadProgress: (event) => {
-            if(config.uploadProgerssCallback)
-                config.uploadProgerssCallback();
+            if(config.uploadProgressCallback)
+                config.uploadProgressCallback(event);
         },
         responseType: responseType,
         headers: headers,
