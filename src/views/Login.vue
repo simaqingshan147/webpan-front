@@ -334,6 +334,7 @@ const doSubmit = ()=>{
                 params: params,
                 errorCallback: () => {
                     changeCheckcode();
+                    formDataRef.value.resetFields();
                 }
         });
         if(!result)

@@ -33,6 +33,25 @@ const routes = [
                     menuCode: "recycle"
                 },
                 component: () => import('@/views/recycle/Recycle.vue')
+            },
+            {
+                path: '/myshare',
+                name: '我的分享',
+                meta: {
+                  needLogin: true,
+                  menuCode: "share"
+                },
+                component: () => import("@/views/myshare/Share.vue")
+            },
+            {
+                path: '/shareCheck/:shareId',
+                name: '分享校验',
+                component: () => import("@/views/webShare/ShareCheck.vue")
+            },
+            {
+                path: '/webShare/:shareId',
+                name: '分享',
+                component: () => import("@/views/webshare/Share.vue")
             }
         ]
     }

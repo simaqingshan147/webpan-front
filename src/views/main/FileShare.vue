@@ -1,9 +1,20 @@
 <!-- 文件分享页面,弹窗选择分享信息 -->
 <template>
-    <Dialog :show="dialogConfig.show" :title="dialogConfig.title" :buttons="dialogConfig.buttons"
-        width="600px" :showCancel="showCancel" @close="dialogConfig.show = false">
-        <el-form :model="formData" :rules="rules"
-            ref="formDataRef" label-width="100px" @submit.prevent>
+    <Dialog
+        :show="dialogConfig.show"
+        :title="dialogConfig.title"
+        :buttons="dialogConfig.buttons"
+        width="600px"
+        :showCancel="showCancel"
+        @close="dialogConfig.show = false"
+    >
+        <el-form
+            :model="formData"
+            :rules="rules"
+            ref="formDataRef"
+            label-width="100px"
+            @submit.prevent
+        >
             <el-form-item label="文件">
                 {{ formData.name }}
             </el-form-item>
@@ -11,16 +22,16 @@
             <template v-if="showType == 0">
                 <el-form-item label="有效期" prop="validType">
                     <el-radio-group v-model="formData.validType">
-                        <el-radio :label="VALID_TYPE.day_1.type">1天</el-radio>
-                        <el-radio :label="VALID_TYPE.day_7.type">7天</el-radio>
-                        <el-radio :label="VALID_TYPE.day_30.type">30天</el-radio>
-                        <el-radio :label="VALID_TYPE.forever.type">永久有效</el-radio>
+                        <el-radio :value="VALID_TYPE.day_1.type">1天</el-radio>
+                        <el-radio :value="VALID_TYPE.day_7.type">7天</el-radio>
+                        <el-radio :value="VALID_TYPE.day_30.type">30天</el-radio>
+                        <el-radio :value="VALID_TYPE.forever.type">永久有效</el-radio>
                     </el-radio-group>
                 </el-form-item>
                 <el-form-item label="提取码" prop="codeType">
                     <el-radio-group v-model="formData.codeType">
-                        <el-radio :label="0">自定义</el-radio>
-                        <el-radio :label="1">系统生成</el-radio>
+                        <el-radio :value="0">自定义</el-radio>
+                        <el-radio :value="1">系统生成</el-radio>
                     </el-radio-group>
                 </el-form-item>
                 <el-form-item prop="code" v-if="formData.codeType == 0">
@@ -129,22 +140,23 @@
         formDataRef.value.validate(async (valid)=>{
             if(!valid)
                 return;
-            let params = {
+            const params = {
                 id: formData.value.id,
-                folderType: formData.value.folderType,
+                folderType: formData.value.folderType == true ? 1 : 0,
                 validType: formData.value.validType,
                 code: formData.value.code
             };
-            let result = Request({
+            let result = await Request({
                 url: api.shareFile,
                 params: params
             });
             if(!result)
                 return;
-            //显示分享信息
-            showType.value = 1;
             //保存分享信息
             shareInfo.value = result.data;
+            console.log(result.data);
+            //显示分享信息
+            showType.value = 1;
             dialogConfig.buttons[0].text = "关闭";
             showCancel.value = false;
         });
