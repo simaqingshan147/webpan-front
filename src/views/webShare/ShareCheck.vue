@@ -10,7 +10,6 @@
                     <div class="avatar">
                         <Avatar
                             :userId="shareInfo.userId"
-                            :avatar="shareInfo.avatar"
                             :width="50"
                         >
                         </Avatar>
@@ -25,7 +24,7 @@
                             </span>
                         </div>
                         <div class="file-name">
-                            分享文件: {{ shareInfo..fileName }}
+                            分享文件: {{ shareInfo.name }}
                         </div>
                     </div>
                 </div>
@@ -69,7 +68,7 @@
     const router = useRouter();
 
     const api = {
-        getShareInfo: "/webShare/getShareInfo",
+        getShareInfo: "/webShare/getShareLoginInfo",
         checkShareCode: "/webShare/checkShareCode",
     };
 
@@ -96,8 +95,9 @@
                 shareId
             }
         });
+        console.log(result);
         if(!result) {
-            return;
+            router.push('/login');
         }
         shareInfo.value = result.data;
     };

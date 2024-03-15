@@ -8,8 +8,7 @@
 <script setup>
     import {computed} from 'vue'
     const api = {
-        avatarUrl: "/api/user/getAvatar/",
-        imageUrl: "/api/file/getImage/"
+        avatarUrl: "/api/user/getAvatar/"
     };
 
     const props = defineProps({

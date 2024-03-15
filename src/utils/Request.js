@@ -50,10 +50,11 @@ instance.interceptors.response.use(
         }
         if(responseData.code === 200)
             return responseData;
-        else if( responseData.code === 404) {
-            Message.error("登录已过期");
-            Router.push('/login');
-        }
+        // else if( responseData.code === 404) {
+        //     console.log(responseData);
+        //     Message.error("登录已过期");
+        //     Router.push('/login');
+        // }
         else{
             if(errorCallback)
                 errorCallback(responseData.info);
@@ -83,7 +84,7 @@ const Request = (config) => {
     if(dataType != null && dataType == "json")
         contentType = 'application/json';
 
-    //
+    console.log(url);
     let headers = {
         'Content-Type': contentType,
         'X-Requested-With': 'XMLHttpRequest'

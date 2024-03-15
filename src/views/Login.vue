@@ -302,9 +302,16 @@ const showPanel = (type) => {
 
         //免密登录
         if (opType.value == 1) {
+            const userInfo = Cookies.get("userInfo");
+            if(userInfo) {
+                Router.push("/main/all");
+                return;
+            }
             const loginInfo = Cookies.get("loginInfo");
-            if (loginInfo)
-                formData.value = loginInfo;
+            if (loginInfo){
+                params.email = loginInfo.email;
+                params.remeberme = loginInfo.remeberme;
+            }
         }
     })
 }

@@ -67,9 +67,9 @@ const FILE_URL_MAP = {
     downloadUrl: "/api/api/download",
   },
   2: {
-    fileUrl: "/showShare/getFile",
-    videoUrl: "/showShare/getVideoInfo",
-    createDownloadUrl: "/showShare/createDownloadUrl",
+    fileUrl: "/webShare/getFile",
+    videoUrl: "/webShare/getVideoInfo",
+    createDownloadUrl: "/webShare/createDownloadUrl",
     downloadUrl: "/api/api/download",
   },
 };

@@ -23,7 +23,6 @@
                         <div class="avatar">
                             <Avatar
                                 :userId="shareInfo.userId"
-                                :avatar="shareInfo.avatar"
                                 :width="50"
                             >
                             </Avatar>
@@ -38,12 +37,12 @@
                                 </span>
                             </div>
                             <div class="file-name">
-                                分享文件: {{ shareInfo..fileName }}
+                                分享文件: {{ shareInfo.name }}
                             </div>
                         </div>
                         <div class="share-op-btn">
                             <el-button
-                                v-if="shareInfo.currentUser"
+                                v-if="shareInfo.currentUser === true"
                                 type="primary"
                                 @click="cancelShare"
                             >
@@ -97,7 +96,7 @@
                                         <span
                                             v-if="row.folderType === false"
                                             class="iconfont icon-download"
-                                            @click="copy(row.id)">
+                                            @click="download(row.id)">
                                             下载
                                         </span>
                                         <span
@@ -192,27 +191,7 @@
     });
 
     /**当前分享id */
-    const shareId = route.URLSearchParams.shareId;
-
-    /**按照条件搜索并返回文件信息 */
-    const loadDataList = async ()=>{
-        const params = {
-            pageNo: tableData.value.pageNo,
-            pageSize: tableData.value.pageSize,
-            shareId: shareId,
-            pid: currentFolder.dirId,
-        };
-        let result = await Request({
-            url: api.loadFileList,
-            showLoading: showLoading,
-            params
-        });
-        if(!result){
-            return;
-        }
-        console.log(result.data);
-        tableData.value = result.data;
-    };
+    const shareId = parseInt(route.params.shareId);
 
     const shareInfo = ref({});
 
@@ -227,13 +206,36 @@
         if(!result) {
             return;
         }
-        if(result.data == null) {
+        console.log(result);
+        if(result.code == 404 && result.data == null) {
             router.push("/shareCheck/" + shareId);
             return;
         }
         shareInfo.value = result.data;
     };
     getShareInfo();
+
+    /**按照条件搜索并返回文件信息 */
+    const loadDataList = async ()=>{
+        const params = {
+            pageNo: tableData.value.pageNo,
+            pageSize: tableData.value.pageSize,
+            shareId: shareId,
+            dirId: currentFolder.dirId == 0 ? null : currentFolder.dirId,
+        };
+        
+        let result = await Request({
+            url: api.loadFileList,
+            showLoading: true,
+            params
+        });
+        console.log(result);
+        if(!result || result.data == null){
+            router.push("/shareCheck/" + shareId);
+            return;
+        }
+        tableData.value = result.data;
+    };
 
     /*****************批量文件操作**********************/
     
@@ -306,8 +308,7 @@
                     return;
                 }
                 Message.success("取消分享成功");
-                //刷新文件界面
-                loadDataList();
+                router.push("/login");
             }
         );
     };
@@ -350,7 +351,10 @@
 
     const download = async (id) => {
         let result = await Request({
-            url: api.createDownloadUrl + shareId + "/" + id
+            url: api.createDownloadUrl + id,
+            params: {
+                shareId: shareId
+            }
         });
         if(!result) {
             return;
@@ -363,8 +367,10 @@
 
     /**预览文件 */
     const preview = (document) => {
-        if(document.folderType) {
+        //访问文件夹,切换导航栏
+        if(document.folderType){
             navigationRef.value.openFolder(document);
+            return;
         }
         document.shareId = shareId;
         previewRef.value.showPreview(document,2);
@@ -373,7 +379,7 @@
     /******其他页面操作 **********/
 
     const jump = () => {
-        router.push("/");
+        router.push("/login");
     }
 
     /**保存到网盘：选中目录后的回调 */
@@ -398,6 +404,17 @@
         Message.success("保存成功");
         folderSelectRef.value.close();
     }
+
+    /**导航栏切换时触发的事件
+     * 即切换完成后,导航栏子组件调用的方法
+     * 通过此方法子组件返回目录信息
+     * @param data 目标目录的id和目标分类
+     */
+    const navChange = (data)=>{
+        const {curFolder} = data;
+        currentFolder.dirId = curFolder;
+        loadDataList();
+    };
 
 </script>
 
@@ -466,6 +483,12 @@
           font-size: 12px;
         }
       }
+    }
+    .share-op-btn {
+        margin-left: auto;
+        margin-right: 20px;
+        display: flex;
+        justify-content: flex-end;
     }
   }
 }

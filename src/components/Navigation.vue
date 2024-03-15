@@ -173,8 +173,9 @@
                 shareId: props.shareId
             }
         });
-        if(!result)
-            return;
+        if(!result || result.data == null){
+            Router.push("/login");
+        }
         folderList.value = result.data;
     };
 
@@ -186,7 +187,7 @@
                 return;
             //只有首页,分享,管理员界面需监听
             let path = newVal.path;
-            if(path.indexOf("/main") == -1 && path.indexOf("/admin") == -1 && path.indexOf("/share") == -1){
+            if(path.indexOf("/main") == -1 && path.indexOf("/admin") == -1 && path.indexOf("/webShare") == -1){
                 return;
             }
             //注意这个path是dirId组成的,不是目录名组成

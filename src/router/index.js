@@ -9,6 +9,7 @@ const routes = [
         component: () => import('@/views/Login.vue')
     },
     {
+        name: 'framework',
         path: "/",
         component: () => import('@/views/Framework.vue'),
         children: [
@@ -42,18 +43,18 @@ const routes = [
                   menuCode: "share"
                 },
                 component: () => import("@/views/myshare/Share.vue")
-            },
-            {
-                path: '/shareCheck/:shareId',
-                name: '分享校验',
-                component: () => import("@/views/webShare/ShareCheck.vue")
-            },
-            {
-                path: '/webShare/:shareId',
-                name: '分享',
-                component: () => import("@/views/webshare/Share.vue")
             }
         ]
+    },
+    {
+        path: '/shareCheck/:shareId',
+        name: '分享校验',
+        component: () => import("@/views/webShare/ShareCheck.vue")
+    },
+    {
+        path: '/webShare/:shareId',
+        name: '分享',
+        component: () => import("@/views/webShare/Share.vue")
     }
 ];
 
