@@ -1,5 +1,8 @@
 export default{
     size2Str: (size) =>{
+        if(size == null) {
+            return "null";
+        }
         let strSize = "";
         if(size < 1024){
             strSize = size.toFixed(2) + "B";
@@ -40,63 +43,59 @@ export default{
     },
     FILE_TYPE: {
         "folder":{
+            name: '文件夹',
             type:0,
-            category:null,
-            accept:null
+            category:null
         },
         "video":{
+            name: '视频',
             type:1,
-            category: "video",
-            accept: null
+            category: "video"
         },
         "music":{
+            name: '音乐',
             type:2,
-            category: "music",
-            accept: null
+            category: "music"
         },
         "image":{
+            name: '图片',
             type:3,
-            category:"image",
-            accept:null
+            category:"image"
         },
         "pdf":{
+            name: 'pdf',
             type:4,
-            category:"doc",
-            accept:[".pdf"]
+            category:"doc"
         },
         "word":{
+            name: 'word文档',
             type:5,
-            category:"doc",
-            accept:[".doc,.docx"]
+            category:"doc"
         },
         "excel":{
+            name: 'excel文档',
             type:6,
-            category:"doc",
-            accept:[".xlsx"]
+            category:"doc"
         },
         "txt":{
+            name: 'txt文件',
             type:7,
-            category:"doc",
-            accept:[".txt"]
+            category:"doc"
         },
         "program":{
+            name: '代码',
             type:8,
-            category:"other",
-            accept:[".h", ".c", ".hpp", ".hxx", ".cpp", ".cc", ".c++", ".cxx", 
-                    ".m", ".o", ".s", ".dll", ".cs",".java", ".class", ".js", 
-                    ".ts", ".css", ".scss", ".vue", ".jsx", ".sql", ".md",
-                     ".json", ".html", ".xml"]
+            category:"other"
         },
         "zip":{
+            name: '压缩包',
             type:9,
-            category:"other",
-            accept:["rar", ".zip", ".7z", ".cab", ".arj", ".lzh", ".tar", ".gz",
-                    ".ace", ".uue", ".bz", ".jar", ".iso",".mpq"]
+            category:"other"
         },
         "others":{
+            name: '其他文件',
             type:10,
-            category:"ohter",
-            accept:null
+            category:"ohter"
         }
     },
     getTypeByCategory: function(category) {

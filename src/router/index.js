@@ -43,6 +43,24 @@ const routes = [
                   menuCode: "share"
                 },
                 component: () => import("@/views/myshare/Share.vue")
+            },
+            {
+                path: '/admin/fileList',
+                name: '用户文件',
+                meta: {
+                  needLogin: true,
+                  menuCode: "settings"
+                },
+                component: () => import("@/views/admin/FileList.vue")
+            },
+            {
+                path: '/admin/userList',
+                name: '用户管理',
+                meta: {
+                  needLogin: true,
+                  menuCode: "settings"
+                },
+                component: () => import("@/views/admin/UserList.vue")
             }
         ]
     },

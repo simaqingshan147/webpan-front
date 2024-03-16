@@ -217,7 +217,7 @@
             }]
         },
         {
-            path: "/settings/fileList",
+            path: "/admin/fileList",
             icon: "settings",
             name: "设置",
             menuCode: "settings",
@@ -225,11 +225,11 @@
             children: [
                 {
                     name: "用户文件",
-                    path: "/settings/fileList",
+                    path: "/admin/fileList",
                 },
                 {
                     name: "用户管理",
-                    path: "/settings/userList",
+                    path: "/admin/userList",
                 }
             ]
         }
@@ -302,6 +302,7 @@
 
     /**从cookie中获取的UserInfo类实例 */
     const userInfo = ref(Cookies.get("userInfo"));
+    console.log(userInfo.value);
     /**用户空间信息,UseSpaceDto类实例*/
     const useSpaceInfo = ref({
         useSpace: 0,
@@ -316,7 +317,6 @@
         });
         if(!result)
             return;
-        console.log(result.data);
         useSpaceInfo.value = result.data;
     };
 
