@@ -317,6 +317,10 @@
         });
         if(!result)
             return;
+        if(result === 401){
+            Cookies.remove("userInfo");
+            Router.push("/login");
+        }
         useSpaceInfo.value = result.data;
     };
 

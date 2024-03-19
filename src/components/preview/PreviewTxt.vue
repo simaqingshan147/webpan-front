@@ -6,6 +6,7 @@
           placeholder="选择编码"
           v-model="encode"
           @change="changeEncode"
+          style="width: 200px;"
         >
           <el-option value="utf8" label="utf8编码"></el-option>
           <el-option value="gbk" label="gbk编码"></el-option>

@@ -278,16 +278,16 @@
             router.push("/login?redirectUrl=" + route.path);
         }
         saveDocuments = []
-        selectedDirIdList.value.forEach((document) => {
+        selectedDirIdList.value.forEach((dirId) => {
             saveDocuments.push({
                 folderType: 1,
-                id: document.id
+                id: dirId
             });
         });
-        selectedFileIdList.value.forEach((document) => {
+        selectedFileIdList.value.forEach((fileId) => {
             saveDocuments.push({
                 folderType: 0,
-                id: document.id
+                id: fileId
             });
         });
         folderSelectRef.value.showFolderDialog(selectedDirIdList.value);
@@ -343,7 +343,7 @@
         }
         saveDocuments = []
         saveDocuments.push({
-            folderType: document.folderType,
+            folderType: document.folderType == true ? 1 : 0,
             id: document.id
         });
         folderSelectRef.value.showFolderDialog(excludeDirIdList);
@@ -384,12 +384,21 @@
 
     /**保存到网盘：选中目录后的回调 */
     const save2MyPanDone = async (dirId) => {
+        let idList = []
+        let folderTypeList = []
+        saveDocuments.forEach(document => {
+            idList.push(document.id);
+            folderTypeList.push(document.folderType);
+        });
+        console.log(idList);
+        console.log(folderTypeList);
         let result = await Request({
             url: api.saveShare,
             params: {
                 shareId: shareId,
-                documents: saveDocuments,
-                dirId: dirId
+                dirId: dirId,
+                idList: idList,
+                folderTypeList: folderTypeList
             }
         });
         if(!result) {

@@ -1,6 +1,27 @@
 <template>
+    <div class="gradient"></div>
     <div class="login-body">
-        <div class="bg"></div>
+        <div class="bg">
+            <div class="banner-title">
+                webpan
+                <br/>
+                电脑高效拍档 一键存爽快看
+            </div>
+            <div class="feature-label">
+                <div class="feature-content">
+                    <img src="../assets/download.png" alt="超大空间，超速下载">
+                    <div class="feature-desc">超大空间，超速下载</div>
+                </div>
+                <div class="feature-content">
+                    <img src="../assets/share.png" alt="PDF一键转换、编辑">
+                    <div class="feature-desc">高速分享</div>
+                </div>
+                <div class="feature-content">
+                    <img src="../assets/video.png" alt="超级播放器，升级AI字幕">
+                    <div class="feature-desc">57种文件在线预览</div>
+                </div>
+            </div>
+        </div>
         <div class="login-panel">
             <el-form class="login-register" :model="formData" :rules="rules" ref="formDataRef">
                 <div class="login-title">webpan</div>
@@ -40,7 +61,7 @@
                         <div>
                             <p>1、在垃圾箱中查找邮箱验证码</p>
                             <p>2、在邮箱中头像->设置->反垃圾->白名单->设置邮件地址白名单</p>
-                            <p>3、将邮箱【3490139755@qq.com】添加到白名单不知道怎么设置？</p>
+                            <p>3、将邮箱【3490139755@qq.com】添加到白名单</p>
                         </div>
                         <template #reference>
                             <span class="a-link" style="font-size: 14px;">
@@ -89,9 +110,9 @@
                 </el-form-item>
                 <!-- 免密登录(登录页面相关) -->
                 <el-form-item v-if="opType == 1">
-                    <div class="remeberme-panel">
+                    <!-- <div class="remeberme-panel">
                         <el-checkbox v-model="formData.remeberme">记住我</el-checkbox>
-                    </div>
+                    </div> -->
                     <div class="no-account">
                         <a href="javascript:void(0)" class="a-link" @click="showPanel(2)">
                             忘记密码?
@@ -142,13 +163,41 @@
                         <img :src="checkCodeUrl" class="check-code" @click="changeCheckcode()" />
                     </div>
                 </el-form-item>
-                <span class="diglog-footer">
+                <!-- <span class="diglog-footer">
                     <el-button type="primary" @click="sendMailCode">
                         发送验证码
                     </el-button>
-                </span>
+                </span> -->
             </el-form>
         </Dialog>
+    </div>
+    <div class="footer" :style="{ position: (opType == 1 ? 'fixed' : 'static') }">
+        <div class="website-info">
+    
+            <div class="about">
+                <h4>关于本站</h4>
+                <p>1.基于springboot+vue3开发</p>
+                <p>2.新疆大学 毕设作品</p>
+            </div>
+    
+            <div class="response hidden-xs">
+                <h4>建议反馈</h4>
+                <p>1.欢迎注册使用</p>
+                <p>2.可在相应的仓库<a href="https://github.com/simaqingshan147/webpan">webpan</a>下issue</p>
+                <p>3.发邮件到3490139755@qq.com</p>
+            </div>
+    
+            <div class="contact hidden-xs hidden-sm">
+                <h4>欢迎联系</h4>
+                <p> <img style="height: 20px;" src="../assets/wechat.png" alt="qq">: 13476200991</p>
+                <p><img style="height: 20px;" src="../assets/github.png" alt="github">: <a href="https://github.com/simaqingshan147">https://github.com/simaqingshan147</a></p>
+            </div>
+    
+        </div>
+    
+        <div class="copyright">
+            <span>Welcome to visit my website © Feng Junjie</span>
+        </div>
     </div>
 </template>
 
@@ -304,13 +353,8 @@ const showPanel = (type) => {
         if (opType.value == 1) {
             const userInfo = Cookies.get("userInfo");
             if(userInfo) {
-                Router.push("/main/all");
+                Router.push("/");
                 return;
-            }
-            const loginInfo = Cookies.get("loginInfo");
-            if (loginInfo){
-                params.email = loginInfo.email;
-                params.remeberme = loginInfo.remeberme;
             }
         }
     })
@@ -353,18 +397,8 @@ const doSubmit = ()=>{
             showPanel(1);
         //登录返回
         }else if(opType.value == 1){
-            if(params.remeberme) {
-                const loginInfo = {
-                    email: params.email,
-                    password: params.password,  //cookie中保存md5加密密码
-                    remeberme: params.remeberme
-                };
-                Cookies.set("loginInfo",loginInfo,"7d");
-            }else {
-                Cookies.remove("loginInfo");
-            }
             //存储userInfo
-            Cookies.set("userInfo",result.data,0);
+            Cookies.set("userInfo",result.data,"0");
             //重定向到首页
             const redirectUrl = Route.query.redirectUrl || "/";
             Router.push(redirectUrl);
@@ -380,19 +414,79 @@ onMounted(() => showPanel(1))
 </script>
 
 <style lang="scss" scoped>
+  .gradient {
+    width:100%;
+    height: 100%;
+    left: 0;
+    top: 0;
+    z-index: -1;
+    position: fixed;
+    display: block;
+    background: linear-gradient(135deg, #c7e9fb, #a6defa, #80d4f9, #5bc9f8, #35bef7);;
+    background-size: 600% 600%;
+    animation: gradientBG 5s ease infinite;
+  }
+
+  @keyframes gradientBG {
+    0% {
+        background-position: 0% 50%;
+    }
+    50% {
+        background-position: 100% 50%;
+    }
+    100% {
+        background-position: 0% 50%;
+    }
+  }
 .login-body {
     height: calc(100vh);
-    background-size: cover;
-    background: url("../assets/login_bg.jpg");
+    background-size: cover;  
     display: flex;
 
     .bg {
         flex: 1;
+        display: flex;
         background-size: cover;
         background-position: center;
         background-size: 800px;
         background-repeat: no-repeat;
-        background-image: url("../assets/login_img.png");
+        align-items: center;
+        justify-content: center;
+        flex-direction: column;
+        background-image: url("https://image.quark.cn/s/uae/g/3o/broccoli/resource/202311/1c69d780-8368-11ee-8302-1dc72091cc01.png");
+        // background-image: url("../assets/login_img.png");
+
+        .banner-title {
+            font-size: 50px;
+            font-weight: 600;
+            line-height: 69px;
+            color: black;
+        }
+
+        .feature-label {
+            margin-top: 70px;
+            display: flex;
+            height: 24px;
+            line-height: 24px;
+
+            .feature-content {
+                display: flex;
+                align-items: center;
+                margin-left: 15px;
+
+                img{
+                    height: 40px;
+                    width: 40px;
+                }
+
+                .feature-desc {
+                    color: #52565e;
+                    font-size: 16px;
+                    font-weight: 500;
+                    margin-left: 8px;
+                }
+            }
+        }
     }
 
     .login-panel {
@@ -403,7 +497,7 @@ onMounted(() => showPanel(1))
         .login-register {
             padding: 25px;
             background: #fff;
-            border-radius: 5px;
+            border-radius: 25px;
 
             .login-title {
                 text-align: center;
@@ -447,19 +541,51 @@ onMounted(() => showPanel(1))
             cursor: pointer;
         }
     }
+}
 
-    .login-btn-qq {
-        margin-top: 20px;
-        text-align: center;
-        display: flex;
-        align-items: center;
-        justify-content: center;
-
-        img {
-            cursor: pointer;
-            margin-left: 10px;
-            width: 20px;
-        }
-    }
+.footer{
+    width: 100%;
+    position: fixed;
+    bottom: 0;
+}
+ 
+.website-info{
+    overflow: hidden;
+    padding-left: 10%;
+}
+ 
+.website-info h4{
+    padding-bottom: 3px;
+    color: #424242;
+    font-weight: bold;
+    border-bottom: 1px solid #aaa;
+}
+ 
+.about, .response, .contact{
+    float: left;
+    margin-right: 10%;
+    margin-left: 2% ;
+    font-size: 0.75em;
+}
+ 
+.about p, .response p, .contact p{
+    margin-bottom: 0.2em;
+}
+ 
+.copyright{
+    text-align: center;
+    padding: 0.5em 0;
+    //background: #4F5893;
+    color: #e7e7e7;
+    bottom: 10em;
+}
+ 
+.copyright a{
+    color: #fff;
+    margin-left: 1em;
+}
+ 
+.copyright a:hover{
+    color: cyan;
 }
 </style>

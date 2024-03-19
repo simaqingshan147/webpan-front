@@ -148,7 +148,6 @@
 
     /**初始化 */
     const init = ()=>{
-        console.log(props);
         if(props.initFetch && props.fetch)
             props.fetch();
     };
@@ -181,7 +180,7 @@
 
     /**切换pageNo */
     const handlePageNoChange = (pageNo) =>{
-        if(pageNo > 0 && pageNo < props.dataSource.pageTotal){
+        if(pageNo > 0 && pageNo <= props.dataSource.pageTotal){
             props.dataSource.pageNo = pageNo;
             props.fetch();
         }

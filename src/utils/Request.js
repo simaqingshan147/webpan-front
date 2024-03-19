@@ -1,9 +1,9 @@
 // 处理ajax请求,格式化后端响应
-import axios from 'axios'
-import { ElLoading } from 'element-plus'
+import axios from 'axios';
+import { ElLoading } from 'element-plus';
 import Router from '../router/index.js';
-import Message from '@/utils/Message.js'
-//todo import Router from '@/router/index.js'
+import VueCookies from 'vue-cookies';
+import Message from '@/utils/Message.js';
 
 //loading实例
 let loading = null;
@@ -45,16 +45,15 @@ instance.interceptors.response.use(
         const responseData = response.data;
         //处理数据格式
         if(responseType == "arraybuffer" || responseType == "blob"){
-            console.log(responseData);
             return responseData;
         }
         if(responseData.code === 200)
             return responseData;
-        // else if( responseData.code === 404) {
-        //     console.log(responseData);
-        //     Message.error("登录已过期");
-        //     Router.push('/login');
-        // }
+        else if( responseData.code === 401) {
+            VueCookies.remove("userInfo");
+            Message.error("登录已过期");
+            Router.push('/login');
+        }
         else{
             if(errorCallback)
                 errorCallback(responseData.info);
@@ -101,7 +100,7 @@ const Request = (config) => {
         errorCallback: config.errorCallback,
         showError: config.showError
     }).catch(error => {
-        console.log(error);
+        console.error(error);
         if(error.showError)
             Message.error(error.msg);
         return null;

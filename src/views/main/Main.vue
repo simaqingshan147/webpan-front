@@ -143,6 +143,7 @@
 
 <script setup>
 import { computed } from '@vue/reactivity';
+import { useRouter } from 'vue-router';
 import { ref, reactive, inject } from 'vue';
 
 //引入页面
@@ -152,6 +153,8 @@ const Message = inject("$message");
 const Request = inject("$request");
 const Confirm = inject("$confirm");
 const Utils = inject("$utils");
+const Cookies = inject("$cookies");
+const Router = useRouter();
 /**文件类型 */
 const TYPE = Utils.FILE_TYPE;
 /**文件状态 */
@@ -189,6 +192,9 @@ const api = {
 
 /**分类浏览时当前页面选择的分类 */
 const category = ref();
+
+/**当前用户信息 */
+const userInfo = ref(Cookies.get("userInfo"));
 
 /**当前目录的id */
 const currentFolder = reactive({
@@ -294,11 +300,15 @@ const fileNameFuzzy = ref();
 
 /**按照条件搜索并返回文件信息 */
 const loadDataList = async ()=>{
+    if(userInfo.value == null){
+        Router.push("/login");
+    }
     editing.value = true;
     let params = {
         pageNo: tableData.value.pageNo,
         pageSize: tableData.value.pageSize,
         name: fileNameFuzzy.value,
+        userId: userInfo.value.userId,
         category: category.value,
         pid: currentFolder.dirId,
         status: STATUS.using.code
@@ -314,7 +324,6 @@ const loadDataList = async ()=>{
     if(!result){
         return;
     }
-    console.log(result.data);
     tableData.value = result.data;
     editing.value = false;
 };
